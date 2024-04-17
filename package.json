@@ -37,6 +37,7 @@
     "typescript": "^5.3.3"
   },
   "release": {
+    "registryUrl": "https://registry.npmjs.org/",
     "branches": [
       "main"
     ],
