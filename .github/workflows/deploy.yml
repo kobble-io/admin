@@ -6,6 +6,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 permissions:
   contents: write
