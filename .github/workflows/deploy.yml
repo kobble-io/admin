@@ -5,14 +5,14 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 jobs:
   get-next-version:
     permissions:
-      contents: read
+      contents: write
       pages: write
       id-token: write
     runs-on: ubuntu-latest
