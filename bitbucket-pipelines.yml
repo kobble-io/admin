@@ -1,0 +1,15 @@
+image: node:20-bookworm
+
+pipelines:
+  branches:
+    main:
+      - stage:
+          name: Build and publish
+          steps:
+            - step:
+                name: "Publish to npm via semantic-release"
+                deployment: 'npm-publish'
+                script:
+                  - npm ci
+                  - npm run build
+                  - npm run npm-release

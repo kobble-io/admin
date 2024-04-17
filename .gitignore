@@ -1,0 +1,4 @@
+/dist
+/deno_dist
+/node_modules
+*.tgz
