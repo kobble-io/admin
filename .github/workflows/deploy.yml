@@ -27,7 +27,7 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run build-interop
-      - run: npm release
+      - run: npm run npm-release
         id: release_node
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
