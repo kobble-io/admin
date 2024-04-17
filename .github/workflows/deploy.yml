@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+
 permissions:
   contents: write
   pages: write
