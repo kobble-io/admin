@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
 
-jobs:
-  permissions:
-    contents: read
-    pages: write
-    id-token: write
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
+jobs:
   get-next-version:
     runs-on: ubuntu-latest
     steps:
