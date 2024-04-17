@@ -1,5 +1,3 @@
-import { pkg } from './pkg';
-
 export interface HttpClientConfig {
   baseUrl: string;
   secret: string;
@@ -21,7 +19,7 @@ export class HttpClient {
   }
 
   constructor(private readonly config: HttpClientConfig) {
-    this.userAgent = `Kobble NodeJS SDK/${pkg.version}`;
+    this.userAgent = `Kobble NodeJS SDK/1.x`;
   }
 
   async getJson<T>(path: string, params = {}): Promise<T> {
