@@ -1,5 +1,6 @@
 import { Product } from '../products/products.types';
 import { Quota } from '../quotas/quota.types';
+import { Permission } from '../permissions/permissions.types';
 
 export type User = {
   id: string;
@@ -14,13 +15,12 @@ export type ListUsersOptions = Partial<{
   page: number;
 }>;
 
-export type UserActiveProduct = Product & {
-  quotas: Quota[];
-};
+export type UserActiveProduct = Product;
 
-export type GetUserQuotaUsage = {
+export type QuotaUsage = {
+  name: string;
   usage: number;
   expiresAt: Date;
-  isExceeded: boolean;
-  limit: number;
+  remaining: number | null;
+  limit: number | null;
 };

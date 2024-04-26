@@ -11,3 +11,24 @@ export type ApiUser = {
   createdAt: string;
   isVerified: boolean;
 };
+
+export type ApiUserQuota = {
+  name: string;
+  usage: number;
+  expiresAt: string;
+  remaining: number;
+  limit: number;
+};
+
+export type ListApiUserQuotaResponse = {
+  quotas: ApiUserQuota[];
+};
+
+export type ApiPermission = {
+  id: string;
+  name: string;
+};
+
+export type ListApiUserPermissionResponse = {
+  permissions: ApiPermission[];
+};
