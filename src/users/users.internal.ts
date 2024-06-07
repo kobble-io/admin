@@ -10,6 +10,7 @@ export type ApiUser = {
   name: string | null;
   createdAt: string;
   isVerified: boolean;
+  metadata: Record<string, any>;
 };
 
 export type ApiUserQuota = {

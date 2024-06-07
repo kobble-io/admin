@@ -34,7 +34,9 @@ export class HttpClient {
       throw new Error(await res.text());
     }
 
-    return res.json();
+    const json = await res.json();
+
+    return json;
   }
 
   async postJson<T, U = Record<string, unknown>>(

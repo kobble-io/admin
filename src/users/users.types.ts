@@ -1,6 +1,4 @@
 import { Product } from '../products/products.types';
-import { Quota } from '../quotas/quota.types';
-import { Permission } from '../permissions/permissions.types';
 
 export type User = {
   id: string;
@@ -8,11 +6,13 @@ export type User = {
   name: string | null;
   createdAt: Date;
   isVerified: boolean;
+  metadata: Record<string, any>;
 };
 
 export type ListUsersOptions = Partial<{
-  limit: number;
-  page: number;
+  limit?: number;
+  page?: number;
+  includeMetadata?: boolean;
 }>;
 
 export type UserActiveProduct = Product;

@@ -33,23 +33,69 @@ export class KobbleUsers {
   private transformApiUser(apiUser: ApiUser): User {
     return {
       ...apiUser,
+      metadata: apiUser.metadata === null ? {} : apiUser.metadata,
       createdAt: new Date(apiUser.createdAt),
     };
   }
 
-  async getById(id: string): Promise<User> {
+  async getById(
+    id: string,
+    options: { includeMetadata?: boolean } = {},
+  ): Promise<User> {
+    const { includeMetadata = false } = options;
     const payload = await this.config.http.getJson<ApiUser>('/users/findById', {
       userId: id,
+      includeMetadata,
     });
 
     return this.transformApiUser(payload);
   }
 
-  async listAll(options: ListUsersOptions = {}): Promise<Paginated<User>> {
+  async findByMetadata(
+    metadata: Record<string, string>,
+    options: { page?: number; limit?: number } = {},
+  ): Promise<Paginated<User>> {
     const { page = 1, limit = 50 } = options;
+    const payload = await this.config.http.postJson<Paginated<ApiUser>>(
+      '/users/findByMetadata',
+      {
+        metadata,
+        page,
+        limit,
+      },
+    );
+
+    return {
+      ...payload,
+      data: payload.data.map((u) => this.transformApiUser(u)),
+    };
+  }
+
+  async pathMetadata(userId: string, metadata: Record<string, any>) {
+    const { metadata: newMetadata } = await this.config.http.postJson<{
+      metadata: Record<string, any>;
+    }>('/users/patchMetadata', {
+      userId,
+      metadata,
+    });
+
+    return { metadata: newMetadata };
+  }
+
+  async updateMetadata(userId: string, metadata: Record<string, any>) {
+    await this.config.http.postJson('/users/updateMetadata', {
+      userId,
+      metadata,
+    });
+
+    return { metadata };
+  }
+
+  async listAll(options: ListUsersOptions = {}): Promise<Paginated<User>> {
+    const { page = 1, limit = 50, includeMetadata = false } = options;
     const payload = await this.config.http.getJson<Paginated<ApiUser>>(
       '/users/list',
-      { page, limit },
+      { page, limit, includeMetadata },
     );
 
     return {
