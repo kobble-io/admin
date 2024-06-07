@@ -48,7 +48,7 @@ export type WebhookQuotaReachedData = {
   quotaName: string;
   usage: number;
   limit: number;
-  memberId: string;
+  userId: string;
 };
 
 export type WebhookUserCreatedEvent = {
