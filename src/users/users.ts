@@ -71,7 +71,7 @@ export class KobbleUsers {
     };
   }
 
-  async pathMetadata(userId: string, metadata: Record<string, any>) {
+  async patchMetadata(userId: string, metadata: Record<string, any>) {
     const { metadata: newMetadata } = await this.config.http.postJson<{
       metadata: Record<string, any>;
     }>('/users/patchMetadata', {
