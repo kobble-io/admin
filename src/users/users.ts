@@ -15,6 +15,14 @@ import { Cache } from '../utils/cache';
 import { MINUTE, SECOND } from '../utils/time';
 import { Permission } from '../permissions/permissions.types';
 
+type CreateUserPayload = {
+  email?: string;
+  name?: string;
+  phoneNumber?: string;
+  metadata?: Record<string, any>;
+  markEmailAsVerified?: boolean;
+};
+
 export class KobbleUsers {
   private permissionsCache = new Cache<Permission[]>({
     defaultTtl: (1 * MINUTE) / SECOND,
@@ -36,6 +44,24 @@ export class KobbleUsers {
       metadata: apiUser.metadata === null ? {} : apiUser.metadata,
       createdAt: new Date(apiUser.createdAt),
     };
+  }
+
+  /**
+   * Create a new user on your Kobble instance manually.
+   *
+   * While both email and phoneNumber are optional, at least one of them must be provided.
+   *
+   * If an email is provided, it will be marked as verified by default.
+   *
+   * Note that the phone number should be in E.164 format (e.g. +14155552671). Other formats will be rejected.
+   */
+  async create(payload: CreateUserPayload): Promise<User> {
+    const res = await this.config.http.postJson<ApiUser>(
+      '/users/create',
+      payload,
+    );
+
+    return this.transformApiUser(res);
   }
 
   async getById(
