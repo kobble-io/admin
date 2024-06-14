@@ -21,6 +21,7 @@ type CreateUserPayload = {
   phoneNumber?: string;
   metadata?: Record<string, any>;
   markEmailAsVerified?: boolean;
+  markPhoneNumberAsVerified?: boolean;
 };
 
 export class KobbleUsers {
