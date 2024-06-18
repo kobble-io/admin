@@ -47,14 +47,17 @@ export class KobbleUsers {
     };
   }
 
-  async createLoginLink(userId: string): Promise<string> {
-    const { url } = await this.config.http.postJson<{
+  async createLoginLink(
+    userId: string,
+  ): Promise<{ url: string; expiresAt: Date }> {
+    const { url, expiresAt } = await this.config.http.postJson<{
       url: string;
+      expiresAt: string;
     }>('/users/mintLoginLink', {
       userId,
     });
 
-    return url;
+    return { url, expiresAt: new Date(expiresAt) };
   }
 
   /**
