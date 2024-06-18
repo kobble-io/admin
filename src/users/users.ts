@@ -47,6 +47,16 @@ export class KobbleUsers {
     };
   }
 
+  async createLoginLink(userId: string): Promise<string> {
+    const { url } = await this.config.http.postJson<{
+      url: string;
+    }>('/users/mintLoginLink', {
+      userId,
+    });
+
+    return url;
+  }
+
   /**
    * Create a new user on your Kobble instance manually.
    *
