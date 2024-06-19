@@ -24,6 +24,10 @@ type CreateUserPayload = {
   markPhoneNumberAsVerified?: boolean;
 };
 
+type GetUserOptions = {
+  includeMetadata?: boolean;
+};
+
 export class KobbleUsers {
   private permissionsCache = new Cache<Permission[]>({
     defaultTtl: (1 * MINUTE) / SECOND,
@@ -78,15 +82,44 @@ export class KobbleUsers {
     return this.transformApiUser(res);
   }
 
-  async getById(
-    id: string,
-    options: { includeMetadata?: boolean } = {},
-  ): Promise<User> {
+  async getById(id: string, options: GetUserOptions = {}): Promise<User> {
     const { includeMetadata = false } = options;
     const payload = await this.config.http.getJson<ApiUser>('/users/findById', {
       userId: id,
       includeMetadata,
     });
+
+    return this.transformApiUser(payload);
+  }
+
+  async getByEmail(email: string, options: GetUserOptions = {}) {
+    const { includeMetadata = false } = options;
+    const payload = await this.config.http.getJson<ApiUser>(
+      '/users/findByEmail',
+      {
+        email,
+        includeMetadata,
+      },
+    );
+
+    return this.transformApiUser(payload);
+  }
+
+  /**
+   * Retrieves a user by their phone number.
+   *
+   * @param phoneNumber The phone number of the user to retrieve. Must be a string in E.164 format.
+   * For example, a US phone number would be formatted as +14155552671.
+   */
+  async getByPhoneNumber(phoneNumber: string, options: GetUserOptions = {}) {
+    const { includeMetadata = false } = options;
+    const payload = await this.config.http.getJson<ApiUser>(
+      '/users/findByPhoneNumber',
+      {
+        phoneNumber,
+        includeMetadata,
+      },
+    );
 
     return this.transformApiUser(payload);
   }
